@@ -1,11 +1,17 @@
 <?php 
-require_once "../db.php";
+require_once "../config.php";
+$db = new Database();
 
-$id = $POST['id'];
-$title = $POST['title'];
-$content = $POST['content'];
-$category = $POST['category'];
+if (assert_key_exists(['id', 'title', 'content', 'category'], $_POST)) {
+    $query = "UPDATE notas SET titulo = '$title', conteudo = '$content', categoria = '$category' WHERE id = '$id'";
 
-$query = "UPDATE FROM notas SET titulo = '$title', conteudo = '$content', categoria = '$category',  WHERE id = '$id'";
+    $db->query($query);
+} else {
+    $db->close();    
+    header("500 Internal Server Error");
+    die();
+}
 
-$conn->query($query);
+$notas = $db->get_many('notas');
+echo json_encode($notas);
+$db->close();    

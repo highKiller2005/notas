@@ -1,3 +1,9 @@
+<?php
+$db = new Database();
+$notas = $db->get_many('notas');
+
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -21,11 +27,11 @@
     </div>
 
     <div class="notas">
-        <?php for ($i = 0; $i < 3; $i++): ?>
-        <div class="nota id-1">
+        <?php foreach ($notas as $nota): ?>
+        <div class="nota id-<?= $nota['id'] ?>">
             <div class="header">
                 <div class="titulo">
-                    <input type="text" value="titulo">
+                    <input type="text" value="<?= $nota['titulo'] ?>">
                 </div>
                 <div class="categoria">
                     <select name="categoria" class="categoria">
@@ -35,18 +41,18 @@
             </div>
 
             <div class="content">
-                <textarea name="conteudo" class="conteudo">Conteudo generico de texto</textarea>
+                <textarea name="conteudo" class="conteudo"><?= $nota['conteudo'] ?></textarea>
                 <div class="acoes">
-                    <button onclick="edit(1)" type="button" class="salvar">
+                    <button onclick="edit(<?= $nota['id'] ?>)" type="button" class="salvar">
                         <i class="fa-solid fa-pen"></i>
                     </button>
-                    <button onclick="remove(1)" type="button" class="excluir">
+                    <button onclick="remove(<?= $nota['id'] ?>)" type="button" class="excluir">
                         <i class="fa-solid fa-trash"></i>
                     </button>
                 </div>
             </div>
         </div>
-        <?php endfor ?>
+        <?php endforeach ?>
     </div>
 </body>
 </html>

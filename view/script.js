@@ -3,15 +3,19 @@ addEventListener('load', () => {
     addButton.addEventListener('click', add)
 })
 
-function add() {
+async function add() {
     console.log("> Adicionando nota")
+    const response = await fetch('routes/add.php')
+    const data = await response.json()
+
+    renderHtml(data)
 }
 
 async function edit(id) {
     console.log(`> Editando nota ${id}`)
-    const nota = document.querySelector('.nota.id-1')
+    const nota = document.querySelector(`.nota.id-${id}`)
     const title = nota.querySelector('.titulo input').value
-    const content = nota.querySelector('.conteudo').innerHTML
+    const content = nota.querySelector('textarea.conteudo').value
     /**
      * @type {HTMLSelectElement}
      */
@@ -31,7 +35,8 @@ async function edit(id) {
         body: formData
     })
     const data = await response.json()
-    console.log(data)
+
+    renderHtml(data)
 }
 
 async function remove(id) {
@@ -45,5 +50,47 @@ async function remove(id) {
     })
 
     const data = await response.json()
-    console.log(data)
+    renderHtml(data)
+}
+
+
+/**
+ * 
+ * @param {Array<{ id: string, titulo: string, conteudo: string, categoria: string }>} data 
+ */
+function renderHtml(data) {
+    const notesContainer = document.querySelector('.notas')
+    notesContainer.innerHTML = ''
+    data.forEach(note => {
+        const noteElement = document.createElement('div')
+
+        noteElement.classList.add('nota')
+        noteElement.classList.add(`id-${note.id}`)
+        noteElement.innerHTML = `
+            <div class="header">
+                <div class="titulo">
+                    <input type="text" value="${note.titulo}">
+                </div>
+                <div class="categoria">
+                    <select name="categoria" class="categoria">
+                        <option value="pendente">pendente</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="content">
+                <textarea name="conteudo" class="conteudo">${note.conteudo}</textarea>
+                <div class="acoes">
+                    <button onclick="edit(${note.id})" type="button" class="salvar">
+                        <i class="fa-solid fa-pen"></i>
+                    </button>
+                    <button onclick="remove(${note.id})" type="button" class="excluir">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+                </div>
+            </div>
+        `
+        notesContainer.appendChild(noteElement)
+    })
+    
 }
