@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     
+    <script src="./view/script.js"></script>
+
     <link rel="stylesheet" href="./view/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,36 +15,38 @@
 </head>
 <body>
     <div class="add">
-        <a class="button" href="routes/add.php">
+        <button class="button" href="routes/add.php">
             <i class="fa-solid fa-plus"></i>
-        </a>
+        </button>
     </div>
 
     <div class="notas">
-        <div class="nota">
+        <?php for ($i = 0; $i < 3; $i++): ?>
+        <div class="nota id-1">
             <div class="header">
                 <div class="titulo">
                     <input type="text" value="titulo">
                 </div>
                 <div class="categoria">
-                    <select name="categoria" id="categoria">
+                    <select name="categoria" class="categoria">
                         <option value="pendente">pendente</option>
                     </select>
                 </div>
             </div>
 
             <div class="content">
-                <textarea name="conteudo" id="conteudo" cols="30" rows="10">Conteudo generico de texto</textarea>
+                <textarea name="conteudo" class="conteudo">Conteudo generico de texto</textarea>
                 <div class="acoes">
-                    <button type="button" class="salvar">
+                    <button onclick="edit(1)" type="button" class="salvar">
                         <i class="fa-solid fa-pen"></i>
                     </button>
-                    <button type="button" class="excluir">
+                    <button onclick="remove(1)" type="button" class="excluir">
                         <i class="fa-solid fa-trash"></i>
                     </button>
                 </div>
             </div>
         </div>
+        <?php endfor ?>
     </div>
 </body>
 </html>
