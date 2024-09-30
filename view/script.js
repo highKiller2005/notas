@@ -26,7 +26,7 @@ async function edit(id) {
     formData.append('content', content)
     formData.append('category', categoria)
 
-    const response = await fetch('routes/add.php', {
+    const response = await fetch('routes/edit.php', {
         method: 'POST',
         body: formData
     })
