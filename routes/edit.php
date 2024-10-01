@@ -13,5 +13,6 @@ if (assert_key_exists(['id', 'title', 'content', 'category'], $_POST)) {
 }
 
 $notas = $db->get_many('notas');
-echo json_encode($notas);
 $db->close();    
+
+echo json_encode($notas);

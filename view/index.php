@@ -1,6 +1,11 @@
 <?php
 $db = new Database();
 $notas = $db->get_many('notas');
+$options = [
+    "pendente",
+    "concluido",
+    "vistoria"
+];
 
 ?>
 
@@ -35,7 +40,9 @@ $notas = $db->get_many('notas');
                 </div>
                 <div class="categoria">
                     <select name="categoria" class="categoria">
-                        <option value="pendente">pendente</option>
+                        <?php foreach ($options as $option): ?>
+                        <option <?php if ($nota['categoria'] == $option) echo "selected" ?> value="<?= $option ?>"><?= $option ?></option>
+                        <?php endforeach ?>
                     </select>
                 </div>
             </div>
@@ -44,7 +51,7 @@ $notas = $db->get_many('notas');
                 <textarea name="conteudo" class="conteudo"><?= $nota['conteudo'] ?></textarea>
                 <div class="acoes">
                     <button onclick="edit(<?= $nota['id'] ?>)" type="button" class="salvar">
-                        <i class="fa-solid fa-pen"></i>
+                        <i class="fa-solid fa-floppy-disk"></i>
                     </button>
                     <button onclick="remove(<?= $nota['id'] ?>)" type="button" class="excluir">
                         <i class="fa-solid fa-trash"></i>

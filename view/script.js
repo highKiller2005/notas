@@ -21,7 +21,9 @@ async function edit(id) {
      */
     const categoria = nota.querySelector('.categoria select').value
 
-    console.log(`${title} - ${content} - ${categoria}`)
+    console.log(`Titulo: ${title}`)
+    console.log(`Conteudo: ${content}`)
+    console.log(`Categoria: ${categoria}`)
 
     const formData = new FormData()
 
@@ -37,10 +39,15 @@ async function edit(id) {
     const data = await response.json()
 
     renderHtml(data)
+    alert("Nota atualizada 😊")
 }
 
 async function remove(id) {
+    const querRemover = confirm ("Tem certeza que deseja remover essa nota 🤨?")
+    if (!querRemover) return
+
     console.log(`> Removendo nota ${id}`)
+
     const formData = new FormData()
 
     formData.append('id', id)
@@ -72,8 +79,12 @@ function renderHtml(data) {
                     <input type="text" value="${note.titulo}">
                 </div>
                 <div class="categoria">
-                    <select name="categoria" class="categoria">
-                        <option value="pendente">pendente</option>
+                    <select name="categoria" class="categoria" value="${note.categoria}">
+                        ${renderOptions([
+                            "pendente",
+                            "concluido",
+                            "vistoria"
+                        ], note.categoria)}
                     </select>
                 </div>
             </div>
@@ -82,7 +93,7 @@ function renderHtml(data) {
                 <textarea name="conteudo" class="conteudo">${note.conteudo}</textarea>
                 <div class="acoes">
                     <button onclick="edit(${note.id})" type="button" class="salvar">
-                        <i class="fa-solid fa-pen"></i>
+                        <i class="fa-solid fa-floppy-disk"></i>
                     </button>
                     <button onclick="remove(${note.id})" type="button" class="excluir">
                         <i class="fa-solid fa-trash"></i>
@@ -92,5 +103,14 @@ function renderHtml(data) {
         `
         notesContainer.appendChild(noteElement)
     })
+}
+
+function renderOptions(options, selected) {
+    let optionsHTML = ''
     
+    options.map(option => {
+        optionsHTML += `<option ${option === selected && 'selected'} value="${option}">${option}</option>`
+    })
+
+    return optionsHTML
 }
