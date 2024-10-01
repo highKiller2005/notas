@@ -16,3 +16,6 @@ CREATE TABLE `user` (
     `email` VARCHAR(100) UNIQUE NOT NULL,
     `senha` VARCHAR(255) NOT NULL
 );
+
+-- add relationship
+ALTER TABLE `notas` ADD COLUMN `user_id` INT;
