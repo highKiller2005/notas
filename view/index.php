@@ -33,7 +33,7 @@ $options = [
 
     <div class="notas">
         <?php foreach ($notas as $nota): ?>
-        <div class="nota id-<?= $nota['id'] ?>">
+        <div class="nota with-fade id-<?= $nota['id'] ?>">
             <div class="header">
                 <div class="titulo">
                     <input type="text" value="<?= $nota['titulo'] ?>">
